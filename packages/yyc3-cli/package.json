@@ -1,0 +1,38 @@
+{
+  "name": "yyc3-cli",
+  "version": "2.0.0",
+  "description": "YYC³ 命令行界面 - 言启象限 | 语枢未来 | 万象归元于云枢 | 深栈智启新纪元",
+  "main": "lib/index.js",
+  "bin": {
+    "yyc3": "./bin/yyc3-cli.js"
+  },
+  "scripts": {
+    "test": "jest --coverage --passWithNoTests",
+    "test:unit": "jest __tests__/cli.test.js --coverage",
+    "test:integration": "jest __tests__/integration.test.js --coverage",
+    "test:performance": "jest __tests__/performance.test.js --coverage",
+    "test:watch": "jest --watch",
+    "test:debug": "node --inspect-brk ./node_modules/.bin/jest --runInBand",
+    "lint": "eslint . --ext .js,.ts --fix",
+    "lint:check": "eslint . --ext .js,.ts",
+    "build": "npm run lint && npm run test && echo '构建成功'",
+    "start": "node bin/yyc3-cli.js",
+    "dev": "nodemon bin/yyc3-cli.js",
+    "prepublishOnly": "npm run build",
+    "version": "npm run build && git add -A",
+    "postversion": "git push && git push --tags"
+  },
+  "keywords": ["yyc3", "cli", "yanyucloud", "developer", "toolkit"],
+  "author": "YanYu Intelligence Cloud³",
+  "license": "MIT",
+  "dependencies": {
+    "commander": "^9.4.1",
+    "chalk": "^4.1.2",
+    "inquirer": "^8.2.5",
+    "ora": "^5.4.1",
+    "fs-extra": "^11.1.0"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}
