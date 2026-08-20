@@ -4,9 +4,22 @@
 
 <br/>
 
+> ## ⚠️ 本仓库已归档（2026-08-19）
+>
+> **接替者：[`@yyc3/cli`](https://www.npmjs.com/package/@yyc3/cli)**（[YYC3-FAmily-Pai Monorepo](https://github.com/YanYuCloudCube/YYC3-FAmily-Pai) 的 `packages/cli`，TypeScript/ESM）。
+>
+> - 20 套项目样板（T01-T20）已由 `@yyc3/cli` 以**实体蓝图**方式承接：`npx create-yyc3-app <name> --blueprint admin-dashboard`
+> - 组件管理（add/diff/registry）、28 套三层正交主题、MCP Server 均在 `@yyc3/cli` v1.3+
+> - 本仓库的 T01-T20 端口/描述元数据与 `scripts/` 运维脚本仍有查阅价值，予以保留
+> - **不再接收功能更新**；本仓库 README 所述 `yyc3 docs generate/validate/update` 等命令从未实现
+>
+> 迁移：`npm i -g @yyc3/cli` → `yyc3 init -t admin-dashboard -n my-app`
+
+<br/>
+
 <div align="center">
 
-# YYC³-CLI — 智能应用全文档架构生成引擎
+# YYC³-CLI — 智能应用全文档架构生成引擎（归档）
 
 > **_YanYuCloudCube_**
 >
