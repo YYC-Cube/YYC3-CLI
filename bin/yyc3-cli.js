@@ -15,6 +15,10 @@
 const { program } = require('commander');
 const pkg = require('../package.json');
 const { initProject, deployProject, buildProject, runTests, configureSettings } = require('../lib/index');
+const { buildIndex } = require('../lib/skills-indexer');
+const { validateAll } = require('../lib/skills-validator');
+const { findDuplicates } = require('../lib/skills-deduper');
+const { generateStats } = require('../lib/skills-stats');
 
 // 设置全局错误处理
 process.on('uncaughtException', (error) => {
@@ -119,13 +123,48 @@ program
     try {
       await configureSettings(options);
       if (options.list) console.log('\n✅ 配置列表已显示');
-      else if (options.get) console.log(`\n✅ 配置值获取成功`);
-      else if (options.set) console.log(`\n✅ 配置设置成功`);
-      else if (options.reset) console.log(`\n✅ 配置重置完成`);
+      else if (options.get) console.log('\n✅ 配置值获取成功');
+      else if (options.set) console.log('\n✅ 配置设置成功');
+      else if (options.reset) console.log('\n✅ 配置重置完成');
     } catch (error) {
       console.error(`\n🔴 配置操作失败: ${error.message}`);
       process.exit(1);
     }
+  });
+
+// skills 命令组
+const skills = program.command('skills').description('Skills 工作区管理');
+
+skills
+  .command('build')
+  .description('构建 Skills 索引')
+  .option('-o, --output <path>', '输出路径')
+  .action(async (options) => {
+    try { await buildIndex(options); } catch (e) { console.error('Error:', e.message); process.exit(1); }
+  });
+
+skills
+  .command('validate')
+  .description('验证 Skills 完整性')
+  .option('-v, --verbose', '详细输出')
+  .action(async (options) => {
+    try { await validateAll(options); } catch (e) { console.error('Error:', e.message); process.exit(1); }
+  });
+
+skills
+  .command('dedup')
+  .description('检测重复文件')
+  .option('-v, --verbose', '详细输出')
+  .action(async (options) => {
+    try { await findDuplicates(options); } catch (e) { console.error('Error:', e.message); process.exit(1); }
+  });
+
+skills
+  .command('stats')
+  .description('生成统计报告')
+  .option('-v, --verbose', '详细输出')
+  .action(async (options) => {
+    try { await generateStats(options); } catch (e) { console.error('Error:', e.message); process.exit(1); }
   });
 
 // 默认命令（显示帮助）
