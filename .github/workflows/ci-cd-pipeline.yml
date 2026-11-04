@@ -68,17 +68,12 @@ jobs:
           echo "ShellCheck未安装，跳过检查"
         fi
 
-    - name: 敏感信息检查
-      uses: zricethezav/gitleaks-action@v2
-      with:
-        config-path: .gitleaks.toml
-
     - name: 生成代码质量报告
       run: |
         echo "## 📊 代码质量报告" >> $GITHUB_STEP_SUMMARY
         echo "- ✅ ESLint检查完成" >> $GITHUB_STEP_SUMMARY
         echo "- 🔒 安全漏洞扫描完成" >> $GITHUB_STEP_SUMMARY
-        echo "- 📝 敏感信息检查完成" >> $GITHUB_STEP_SUMMARY
+        echo "- 📝 敏感信息检查由独立 gitleaks workflow 承担（增量扫描）" >> $GITHUB_STEP_SUMMARY
         echo "**质量状态: 通过**" >> $GITHUB_STEP_SUMMARY
 
   # 作业2: 测试与验证

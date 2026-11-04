@@ -72,5 +72,7 @@ paths = [
 regexes = [
   '''example_key_\w{32}''',
   '''test_password_\w{16}''',
-  '''dummy_.+'''
+  '''dummy_.+''',
+  '''(?i)(pass(word)?|secret|token|pwd)\s*[=:]\s*["']?(your-|<[^>]{3,}>|placeholder|example[-_ ]|xxx\.)''',
+  '''(?i)smtp-auth-[^\s"']*["']?(your-|placeholder|example)''',
 ]
