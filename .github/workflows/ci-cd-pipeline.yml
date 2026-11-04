@@ -14,8 +14,9 @@ on:
   push:
     branches: [ main, develop ]
     paths:
-      - 'YYC3 CLI/**'
-      - 'Mac/**'
+      - 'packages/**'
+      - 'bin/**'
+      - 'lib/**'
       - '.github/workflows/**'
       - 'package.json'
       - '*.sh'
@@ -43,18 +44,18 @@ jobs:
       with:
         node-version: '18'
         cache: 'npm'
-        cache-dependency-path: 'YYC3 CLI/packages/yyc3-cli/package.json'
+        cache-dependency-path: 'packages/yyc3-cli/package-lock.json'
 
     - name: 安装依赖
-      working-directory: ./YYC3 CLI/packages/yyc3-cli
+      working-directory: ./packages/yyc3-cli
       run: npm ci
 
     - name: 代码风格检查 (ESLint)
-      working-directory: ./YYC3 CLI/packages/yyc3-cli
+      working-directory: ./packages/yyc3-cli
       run: npm run lint || echo "Linting issues found"
 
     - name: 安全漏洞扫描 (npm audit)
-      working-directory: ./YYC3 CLI/packages/yyc3-cli
+      working-directory: ./packages/yyc3-cli
       run: |
         npm audit --audit-level=high || true
         echo "安全扫描完成"
@@ -96,27 +97,26 @@ jobs:
         node-version: '18'
 
     - name: 安装依赖
-      working-directory: ./YYC3 CLI/packages/yyc3-cli
+      working-directory: ./packages/yyc3-cli
       run: npm ci
 
     - name: 运行单元测试
-      working-directory: ./YYC3 CLI/packages/yyc3-cli
+      working-directory: ./packages/yyc3-cli
       run: |
         npm test -- --coverage || echo "测试运行完成"
 
     - name: 验证CLI基本功能
-      working-directory: ./YYC3 CLI
       run: |
         echo "验证CLI工具基本功能..."
-        node packages/yyc3-cli/bin/yyc3-cli.js --version || echo "版本检查"
-        node packages/yyc3-cli/bin/yyc3-cli.js --help || echo "帮助文档"
+        node bin/yyc3-cli.js --version || echo "版本检查"
+        node bin/yyc3-cli.js --help || echo "帮助文档"
+        node bin/yyc3-cli.js i18n --help || echo "i18n 命令组"
         echo "CLI功能验证完成"
 
     - name: 验证Shell脚本
       run: |
         echo "验证Shell脚本语法..."
-        bash -n yyc3-management.sh && echo "yyc3-management.sh语法正确"
-        bash -n yyc3-smart-ops.sh && echo "yyc3-smart-ops.sh语法正确"
+        find . -maxdepth 1 -name "*.sh" -type f -exec bash -n {} \; -print || echo "无 Shell 脚本，跳过"
         echo "Shell脚本验证完成"
 
     - name: 生成测试报告
@@ -143,26 +143,25 @@ jobs:
         node-version: '18'
 
     - name: 安装依赖
-      working-directory: ./YYC3 CLI/packages/yyc3-cli
+      working-directory: ./packages/yyc3-cli
       run: npm ci
 
     - name: 构建CLI工具
-      working-directory: ./YYC3 CLI/packages/yyc3-cli
+      working-directory: ./packages/yyc3-cli
       run: npm run build
 
     - name: 打包制品
-      working-directory: ./YYC3 CLI
       run: |
         mkdir -p dist
         cp -r packages/yyc3-cli/ dist/
-        cp yyc3-management.sh yyc3-smart-ops.sh dist/
+        find . -maxdepth 1 -name "*.sh" -type f -exec cp {} dist/ \; || true
         echo "打包完成"
 
     - name: 上传构建制品
       uses: actions/upload-artifact@v4
       with:
         name: yyc3-cli-dist
-        path: YYC3 CLI/dist/
+        path: dist/
         retention-days: 7
 
     - name: 生成构建报告

@@ -57,26 +57,18 @@ regex = '''port\s*:\s*([0-9]{2,5})'''
 entropy = 3.5
 tags = ["port", "yyc3", "info"]
 
-# 允许的例外
-[[allowlist]]
-description = "测试文件中允许的示例密钥"
+# 允许的例外（gitleaks 8.x 要求 allowlist 为单一 map，非数组表）
+[allowlist]
+description = "测试/文档中允许的示例与占位密钥"
 paths = [
   "__tests__/",
   "test/",
   ".spec.",
-  ".test."
-]
-
-[[allowlist]]
-description = "文档文件中允许的示例"
-paths = [
+  ".test.",
   "README.md",
   "API-DOCUMENTATION.md",
   "DEPLOYMENT-GUIDE.md"
 ]
-
-# 忽略模式
-[[allowlist]]
 regexes = [
   '''example_key_\w{32}''',
   '''test_password_\w{16}''',
