@@ -38,3 +38,7 @@ config/environments/.env.*
 .mimosa/
 .v2c/
 .video_agent/
+
+# Skills 同步产物（来源：@yyc3/i18n-core 等上游仓的 skills-hub 副本与生成索引）
+skills-hub/
+_categories.json
