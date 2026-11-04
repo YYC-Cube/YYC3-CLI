@@ -187,7 +187,8 @@ jobs:
     - name: 设置部署环境
       run: |
         echo "部署环境准备..."
-        ls -la yyc3-cli-dist/
+        ls -la .
+        echo "制品根目录内容如上（download-artifact v4 解包于工作目录根）"
 
     - name: 生成版本号
       id: version
