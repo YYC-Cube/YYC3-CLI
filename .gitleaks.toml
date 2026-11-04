@@ -75,4 +75,7 @@ regexes = [
   '''dummy_.+''',
   '''(?i)(pass(word)?|secret|token|pwd)\s*[=:]\s*["']?(your-|<[^>]{3,}>|placeholder|example[-_ ]|xxx\.)''',
   '''(?i)smtp-auth-[^\s"']*["']?(your-|placeholder|example)''',
+  '''smtp-auth-password="\$\{[A-Z_]+\}"''',
+  '''^\$\{[A-Z_][A-Z0-9_]*\}$''',
+  '''(?i)password="\$\{[A-Z_][A-Z0-9_]*\}"''',
 ]

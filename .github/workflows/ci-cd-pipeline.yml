@@ -42,7 +42,7 @@ jobs:
     - name: 设置Node.js环境
       uses: actions/setup-node@v4
       with:
-        node-version: '18'
+        node-version: '22'
         cache: 'npm'
         cache-dependency-path: 'packages/yyc3-cli/package-lock.json'
 
@@ -89,7 +89,7 @@ jobs:
     - name: 设置Node.js环境
       uses: actions/setup-node@v4
       with:
-        node-version: '18'
+        node-version: '22'
 
     - name: 安装依赖
       working-directory: ./packages/yyc3-cli
@@ -135,7 +135,7 @@ jobs:
     - name: 设置Node.js环境
       uses: actions/setup-node@v4
       with:
-        node-version: '18'
+        node-version: '22'
 
     - name: 安装依赖
       run: npm ci

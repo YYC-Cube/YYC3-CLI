@@ -2112,11 +2112,11 @@ services:
     environment:
       LDAP_ORGANISATION: "YC Development"
       LDAP_DOMAIN: "yc.local"
-      LDAP_ADMIN_PASSWORD: "admin_password"
-      LDAP_CONFIG_PASSWORD: "config_password"
+      LDAP_ADMIN_PASSWORD: "${LDAP_ADMIN_PASSWORD:?set LDAP_ADMIN_PASSWORD in .env}"
+      LDAP_CONFIG_PASSWORD: "${LDAP_CONFIG_PASSWORD:?set LDAP_CONFIG_PASSWORD in .env}"
       LDAP_READONLY_USER: "true"
       LDAP_READONLY_USER_USERNAME: "readonly"
-      LDAP_READONLY_USER_PASSWORD: "readonly_password"
+      LDAP_READONLY_USER_PASSWORD: "${LDAP_READONLY_USER_PASSWORD:?set LDAP_READONLY_USER_PASSWORD in .env}"
     volumes:
       - /Volume1/YYC/services/ldap/database:/var/lib/ldap
       - /Volume1/YYC/services/ldap/config:/etc/ldap/slapd.d
@@ -2160,7 +2160,7 @@ services:
       - "8080:8080"
     environment:
       KEYCLOAK_ADMIN: admin
-      KEYCLOAK_ADMIN_PASSWORD: admin_password
+      KEYCLOAK_ADMIN_PASSWORD: "${KEYCLOAK_ADMIN_PASSWORD:?set KEYCLOAK_ADMIN_PASSWORD in .env}"
       KC_DB: postgres
       KC_DB_URL: jdbc:postgresql://keycloak-db:5432/keycloak
       KC_DB_USERNAME: keycloak
@@ -2399,9 +2399,9 @@ userPassword: password123
 EOF
 
     # 导入 LDIF 文件
-    docker exec yyc3-openldap ldapadd -x -D "cn=admin,dc=yc,dc=local" -w admin_password -f /tmp/ou.ldif 2>/dev/null || echo "组织单位可能已存在"
-    docker exec yyc3-openldap ldapadd -x -D "cn=admin,dc=yc,dc=local" -w admin_password -f /tmp/groups.ldif 2>/dev/null || echo "用户组可能已存在"
-    docker exec yyc3-openldap ldapadd -x -D "cn=admin,dc=yc,dc=local" -w admin_password -f /tmp/users.ldif 2>/dev/null || echo "用户可能已存在"
+    docker exec yyc3-openldap ldapadd -x -D "cn=admin,dc=yc,dc=local" -w "$LDAP_ADMIN_PASSWORD" -f /tmp/ou.ldif 2>/dev/null || echo "组织单位可能已存在"
+    docker exec yyc3-openldap ldapadd -x -D "cn=admin,dc=yc,dc=local" -w "$LDAP_ADMIN_PASSWORD" -f /tmp/groups.ldif 2>/dev/null || echo "用户组可能已存在"
+    docker exec yyc3-openldap ldapadd -x -D "cn=admin,dc=yc,dc=local" -w "$LDAP_ADMIN_PASSWORD" -f /tmp/users.ldif 2>/dev/null || echo "用户可能已存在"
     
     rm -f /tmp/*.ldif
     echo "✅ LDAP 用户配置完成"
@@ -2495,8 +2495,8 @@ $(docker ps --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}" | grep -E "(lda
 - Harbor: http://192.168.3.4582
 
 默认账户信息:
-- LDAP 管理员: cn=admin,dc=yc,dc=local / admin_password
-- Keycloak 管理员: admin / admin_password
+- LDAP 管理员: cn=admin,dc=yc,dc=local / $LDAP_ADMIN_PASSWORD（部署前在 .env 设置）
+- Keycloak 管理员: admin / $KEYCLOAK_ADMIN_PASSWORD（部署前在 .env 设置）
 - SonarQube 管理员: admin / admin (首次登录需修改)
 - Nexus 管理员: admin / (查看容器内 admin.password 文件)
 
