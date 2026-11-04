@@ -23,9 +23,9 @@ on:
   pull_request:
     branches: [ main, develop ]
 
-# 流水线权限设置
+# 流水线权限设置（部署作业创建 Release/Tag 需 contents: write）
 permissions:
-  contents: read
+  contents: write
   packages: write
   security-events: write
 
