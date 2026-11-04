@@ -30,3 +30,11 @@ tmp/
 
 # macOS
 .DS_Store
+
+# 敏感环境配置（含本地密钥，严禁入库）
+config/environments/.env.*
+
+# 本地工具状态目录
+.mimosa/
+.v2c/
+.video_agent/

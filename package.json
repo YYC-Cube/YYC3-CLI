@@ -29,7 +29,8 @@
     "boxen": "^5.1.2",
     "axios": "^1.18.0",
     "dotenv": "^16.3.1",
-    "winston": "^3.11.0"
+    "winston": "^3.11.0",
+    "@yyc3/cli-integration": "file:../YYC3-i18n-Core/packages/cli-integration"
   },
   "devDependencies": {
     "jest": "^29.7.0",

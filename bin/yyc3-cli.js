@@ -19,6 +19,7 @@ const { buildIndex } = require('../lib/skills-indexer');
 const { validateAll } = require('../lib/skills-validator');
 const { findDuplicates } = require('../lib/skills-deduper');
 const { generateStats } = require('../lib/skills-stats');
+const { initI18n, extractKeys, auditCoverage } = require('../lib/i18n');
 
 // 设置全局错误处理
 process.on('uncaughtException', (error) => {
@@ -165,6 +166,49 @@ skills
   .option('-v, --verbose', '详细输出')
   .action(async (options) => {
     try { await generateStats(options); } catch (e) { console.error('Error:', e.message); process.exit(1); }
+  });
+
+// ===== i18n 命令组（@yyc3/i18n-core 集成，含工作目录路径遏制）=====
+const i18n = program.command('i18n').description('🌐 i18n 国际化管理工具');
+
+i18n
+  .command('init [path]')
+  .description('初始化 i18n 配置（locales/ + 引擎配置）')
+  .option('-l, --locales <locales>', '支持的语言（逗号分隔）', 'en,zh-CN')
+  .option('--react', '同时安装 React 组件包', false)
+  .action(async (projectPath, options) => {
+    try {
+      await initI18n(projectPath ?? '.', options);
+    } catch (error) {
+      console.error(`\n🔴 i18n 初始化失败: ${error.message}`);
+      process.exitCode = 1;
+    }
+  });
+
+i18n
+  .command('extract [glob]')
+  .description('从源码 t() 调用提取翻译键（默认 src 下全部 ts/tsx）')
+  .option('-o, --output <file>', '输出文件路径', 'locales/extracted-keys.json')
+  .action(async (source, options) => {
+    try {
+      await extractKeys(source, options);
+    } catch (error) {
+      console.error(`\n🔴 提取失败: ${error.message}`);
+      process.exitCode = 1;
+    }
+  });
+
+i18n
+  .command('audit [dir]')
+  .description('审计翻译覆盖率（缺失键报告）')
+  .option('-o, --output <file>', '报告输出路径')
+  .action(async (dir, options) => {
+    try {
+      await auditCoverage(dir ?? 'src/locales', options);
+    } catch (error) {
+      console.error(`\n🔴 审计失败: ${error.message}`);
+      process.exitCode = 1;
+    }
   });
 
 // 默认命令（显示帮助）
