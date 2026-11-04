@@ -138,12 +138,16 @@ jobs:
         node-version: '18'
 
     - name: 安装依赖
-      working-directory: ./packages/yyc3-cli
       run: npm ci
 
-    - name: 构建CLI工具
-      working-directory: ./packages/yyc3-cli
-      run: npm run build
+    - name: 构建 CLI 工具（语法门 + 根构建）
+      run: |
+        npm run build
+        node --check bin/yyc3-cli.js
+        node --check lib/i18n.js
+        node --check lib/index.js
+        node --check packages/yyc3-cli/bin/yyc3-cli.js
+        echo "语法门通过"
 
     - name: 打包制品
       run: |
