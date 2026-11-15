@@ -19,6 +19,7 @@ const { buildIndex } = require('../lib/skills-indexer');
 const { validateAll } = require('../lib/skills-validator');
 const { findDuplicates } = require('../lib/skills-deduper');
 const { generateStats } = require('../lib/skills-stats');
+const { syncCoreSkills } = require('../lib/skills-sync');
 const { initI18n, extractKeys, auditCoverage } = require('../lib/i18n');
 
 // 设置全局错误处理
@@ -166,6 +167,15 @@ skills
   .option('-v, --verbose', '详细输出')
   .action(async (options) => {
     try { await generateStats(options); } catch (e) { console.error('Error:', e.message); process.exit(1); }
+  });
+
+skills
+  .command('sync-core')
+  .description('从 @yyc3/i18n-Core 同步技能包到 skills-hub（并链式校验）')
+  .option('-s, --src <path>', 'i18n-Core skills 源目录（缺省自动探测：YYC3_I18N_CORE_DIR > 仓邻 ../YYC3-i18n-Core > node_modules）')
+  .option('--no-validate', '同步后跳过校验')
+  .action(async (options) => {
+    try { await syncCoreSkills(options); } catch (e) { console.error('Error:', e.message); process.exit(1); }
   });
 
 // ===== i18n 命令组（@yyc3/i18n-core 集成，含工作目录路径遏制）=====
