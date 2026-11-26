@@ -135,6 +135,7 @@ const inquirer = require('inquirer');
 const ora = require('ora');
 const fs = require('fs-extra');
 const path = require('path');
+const { validateSafeName } = require('../lib/path-guard');
 
 // 版本信息
 const { version } = require('../package.json');
@@ -384,6 +385,10 @@ program
 
 // 项目创建函数
 async function createProject(type, name, options) {
+  // 安全校验：name 来自 argv，必须为单一安全路径段，
+  // 防止 `../../x` 类输入经 path.join 逃逸出工作目录（含 --force 时的 removeSync 任意目录删除）
+  name = validateSafeName(name, 'project');
+
   const targetDir = path.join(process.cwd(), name);
 
   // 检查目录是否存在
@@ -726,6 +731,9 @@ function createComponentIndex(componentDir, indexContent) {
 
 // 生成组件
 async function generateComponent(name, targetPath, options) {
+  // 安全校验：name 用作目录/文件名（componentName 拼入 path.join），拒绝穿越序列
+  name = validateSafeName(name, 'component');
+
   // 确保组件名以 YY 开头
   const componentName = name.startsWith('YY') ? name : `YY${name}`;
   const totalSteps = 3;
