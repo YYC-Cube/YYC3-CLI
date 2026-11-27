@@ -1,6 +1,6 @@
 {
   "name": "yyc3-cli",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "YYC³ 命令行界面 - 言启象限 | 语枢未来 | 万象归元于云枢 | 深栈智启新纪元",
   "main": "lib/index.js",
   "bin": {
@@ -12,8 +12,8 @@
     "test": "jest --coverage",
     "test:unit": "jest tests/unit --coverage",
     "test:integration": "jest tests/integration",
-    "lint": "eslint . --ext .js",
-    "lint:fix": "eslint . --ext .js --fix",
+    "lint": "eslint bin lib --ext .js",
+    "lint:fix": "eslint bin lib --ext .js --fix",
     "format": "prettier --write \"**/*.{js,md,json}\"",
     "build": "echo \"CLI tool - no build required\"",
     "audit": "npm audit --audit-level=high",
@@ -21,13 +21,13 @@
     "prepublishOnly": "npm run lint && npm run test"
   },
   "dependencies": {
-    "@yyc3/cli-integration": "file:../YYC3-i18n-Core/packages/cli-integration",
     "axios": "^1.21.0",
     "boxen": "^5.1.2",
     "chalk": "^4.1.2",
     "commander": "^11.0.0",
     "dotenv": "^16.3.1",
     "figlet": "^1.12.0",
+    "glob": "^14.0.3",
     "inquirer": "^8.2.6",
     "ora": "^5.4.1",
     "winston": "^3.11.0"
@@ -82,8 +82,8 @@
   "files": [
     "bin/",
     "lib/",
-    "templates/",
     "README.md",
-    "LICENSE"
+    "LICENSE",
+    "CHANGELOG.md"
   ]
 }
