@@ -1,23 +1,21 @@
----
-@file: yyc3-knowledge-base.sh
-@description: YYC³-CLI Shell脚本: yyc3-knowledge-base.sh
-@author: YanYuCloudCube Team
-@version: v1.0.0
-@created: 2026-02-17
-@updated: 2026-02-17
-@status: published
-@tags: [脚本],[Shell],[YYC³-CLI]
----
-
-> ***YanYuCloudCube***
-> 言启象限 | 语枢未来
-> ***Words Initiate Quadrants, Language Serves as Core for the Future***
-> 万象归元于云枢 | 深栈智启新纪元
-> ***All things converge in the cloud pivot; Deep stacks ignite a new era of intelligence***
-
----
-
 #!/usr/bin/env python3
+# ---
+# @file: yyc3-knowledge-base.py
+# @description: YYC³-CLI Python脚本: yyc3-knowledge-base.py（项目文件树生成）
+# @author: YanYuCloudCube Team
+# @version: v1.0.1
+# @created: 2026-02-17
+# @updated: 2026-11-27
+# @status: published
+# @tags: [脚本],[Python],[YYC³-CLI]
+# ---
+#
+# > ***YanYuCloudCube***
+# > 言启象限 | 语枢未来
+# > ***Words Initiate Quadrants, Language Serves as Core for the Future***
+# > 万象归元于云枢 | 深栈智启新纪元
+# > ***All things converge in the cloud pivot; Deep stacks ignite a new era of intelligence***
+
 """
 yyc3-knowledge-base 项目文件树生成脚本
 基于行业标准和智能化AI知识库最佳实践
