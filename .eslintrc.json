@@ -1,0 +1,27 @@
+{
+  "root": true,
+  "env": {
+    "node": true,
+    "es2022": true,
+    "jest": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 2022,
+    "sourceType": "script"
+  },
+  "extends": "eslint:recommended",
+  "rules": {
+    "no-console": "off"
+  },
+  "overrides": [
+    {
+      "files": [
+        "lib/skills-aync-index.js",
+        "lib/skills-naming.js"
+      ],
+      "rules": {
+        "no-unused-vars": "off"
+      }
+    }
+  ]
+}

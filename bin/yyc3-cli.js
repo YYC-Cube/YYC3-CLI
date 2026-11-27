@@ -20,6 +20,8 @@ const { validateAll } = require('../lib/skills-validator');
 const { findDuplicates } = require('../lib/skills-deduper');
 const { generateStats } = require('../lib/skills-stats');
 const { syncCoreSkills } = require('../lib/skills-sync');
+const { lintNaming, migrateNaming } = require('../lib/skills-naming');
+const { generateAyncIndex } = require('../lib/skills-aync-index');
 const { initI18n, extractKeys, auditCoverage } = require('../lib/i18n');
 
 // 设置全局错误处理
@@ -29,7 +31,7 @@ process.on('uncaughtException', (error) => {
   process.exit(1);
 });
 
-process.on('unhandledRejection', (reason, promise) => {
+process.on('unhandledRejection', (reason) => {
   console.error(`\n🔴 未处理的 Promise 拒绝: ${reason}`);
   process.exit(1);
 });
@@ -167,6 +169,33 @@ skills
   .option('-v, --verbose', '详细输出')
   .action(async (options) => {
     try { await generateStats(options); } catch (e) { console.error('Error:', e.message); process.exit(1); }
+  });
+
+skills
+  .command('index')
+  .description('生成 AYNC 统一索引（docs/AYNC-INDEX.md + .json）')
+  .action(async () => {
+    try { await generateAyncIndex(); } catch (e) { console.error('Error:', e.message); process.exit(1); }
+  });
+
+// naming 命令组（AYNC 编码）
+const naming = skills.command('naming').description('命名规范工具（AYNC 编码）');
+
+naming
+  .command('lint')
+  .description('检查命名合规性（kebab-case + AYNC 编码统计）')
+  .option('-v, --verbose', '详细输出违规清单')
+  .action(async (options) => {
+    try { await lintNaming(options); } catch (e) { console.error('Error:', e.message); process.exit(1); }
+  });
+
+naming
+  .command('migrate')
+  .description('生成 AYNC 命名迁移计划（默认 dry-run）')
+  .option('--apply', '执行迁移（默认 dry-run）', false)
+  .option('-v, --verbose', '输出完整迁移清单')
+  .action(async (options) => {
+    try { await migrateNaming(options); } catch (e) { console.error('Error:', e.message); process.exit(1); }
   });
 
 skills
