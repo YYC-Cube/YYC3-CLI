@@ -1,0 +1,21 @@
+# YYC³ CLI — Dependabot 分组配置（T1 恒久减负）
+# 策略：patch/minor 归组周更，绿测自动合并（dependabot-auto-merge.yml）；
+#       major 保持单独 PR 认真评审。
+version: 2
+updates:
+  # npm 单包（package-lock.json）
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    groups:
+      patch-and-minor:
+        update-types: ["patch", "minor"]
+  # GitHub Actions 版本更新（ci-cd-pipeline.yml / gitleaks.yml）
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    groups:
+      patch-and-minor:
+        update-types: ["patch", "minor"]
